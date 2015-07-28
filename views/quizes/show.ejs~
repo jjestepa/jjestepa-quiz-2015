@@ -1,0 +1,7 @@
+<form method="get" action="/quizes/<%= quiz.id %>/answer">        
+      <p>La pregunta es: <strong><%= quiz.pregunta %></strong></p>
+      <p>&nbsp;</p>
+      <input type="text" name="respuesta" size="40" 
+             placeholder="Escriba la respuesta aqui" value=""/>
+	<input type="submit" value="Enviar"/>
+</form>
