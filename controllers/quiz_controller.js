@@ -31,9 +31,25 @@ exports.answer = function(req,res) {
 	res.render('quizes/answer', { quiz: req.quiz, respuesta: resultado});
 };
 
+//GET /quizes
 exports.index = function( req, res ) {
-  models.Quiz.findAll().then( function( quizes ) {
-    res.render('quizes/index.ejs', { quizes: quizes } );
-  });
-}
 
+  search = req.query.search;
+  
+	console.log(" search ======> " + search);
+  if ( typeof search === "undefined") {
+	models.Quiz.findAll().then(function(quizes) {
+		res.render('quizes/index.ejs', {quizes : quizes});
+  	});
+  }
+  else {
+	cadena = "%" +  search.replace(" ", "%") + "%";
+	console.log("cadena de búsqueda" + cadena);
+	models.Quiz.findAll({where: [ "pregunta like ?", cadena]})
+		.then(function(quizes) {
+			res.render('quizes/index.ejs', {quizes: quizes});
+
+	});
+  }
+
+}// fin exports.index
