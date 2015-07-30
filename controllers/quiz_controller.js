@@ -58,7 +58,7 @@ exports.index = function( req, res ) {
 // GET /quizes/new
 exports.new = function( req, res ) {
     var quiz = models.Quiz.build(
-            { pregunta: "", respuesta: ""}
+            { pregunta: "", respuesta: "", genero : ""}
         );
     res.render('quizes/new', { quiz: quiz, errors: [] } );
 }
@@ -82,7 +82,8 @@ exports.create = function( req, res ) {
 			{
 			    console.log(" ====> Pregunta =====> " + quiz["pregunta"]);
 			    console.log(" ====> Respuesta =====> " + quiz["respuesta"]);
-			    quiz.save( {fields: ["pregunta", "respuesta"]} )
+			    console.log(" ====> genero =====> " + quiz["genero"]);
+			    quiz.save( {fields: ["pregunta", "respuesta", "genero"]} )
 				.then( 
 					function() {
 						res.redirect("/quizes");
@@ -110,6 +111,7 @@ exports.edit = function(req,res) {
 exports.update = function(req, res){
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.genero = req.body.quiz.genero;
 
 	req.quiz.validate().then(
 		function (err){
@@ -120,7 +122,7 @@ exports.update = function(req, res){
 			else
 			{
 				req.quiz //save: guarda campos pregunta y respuesta en DB
-					.save({fields: ["pregunta","respuesta"]})
+					.save({fields: ["pregunta","respuesta", "genero"]})
 					.then( function () 
 					{
 						res.redirect('/quizes');
@@ -144,7 +146,4 @@ exports.destroy = function (req, res) {
 		}
 	);
 };			
-
-
-
 
