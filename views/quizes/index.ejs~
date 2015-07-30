@@ -2,7 +2,7 @@
 
 <table class="main">
 	<tr>
-		<form method="get" action="/quizes/">
+		<form method="get" action="/quizes">
 			<input type="text" name="search" size="40" value="" required/>&nbsp;&nbsp;
 			<input type="submit" value="buscar entre las preguntas" />
 		</form>

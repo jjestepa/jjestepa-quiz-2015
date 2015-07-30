@@ -1,0 +1,13 @@
+
+<!-- req.body.quiz ha sido construido por bodyparser al usar
+ notacion pseudoJSON en los nombres de los campos (quiz[pregunta] y quiz[respuesta]) - pag 6 - modulo 8 -->
+
+<label for="preg" class="rem">Texto de la Pregunta:</label><br/>
+<input id="preg" type="text" name="quiz[pregunta]" size="40" placeholder="Escriba la pregunta aquí" value=""/>
+
+<p>&nbsp;</p>
+<label for="resp" class="rem">Respuesta:</label><br/>
+<input id="resp" type="text" name="quiz[respuesta]" size="40" placeholder="Escriba la respuesta aquí" value=""/>
+
+<a href="/quizes"><input type="button" value=" Cancelar "/></a>
+<input type="submit" value=" Guardar pregunta ">

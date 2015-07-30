@@ -1,0 +1,23 @@
+<p><strong>Añadir nueva pregunta:</strong></p>
+
+    <form method="post" action="/quizes/create">        
+      
+	<% include _form.ejs %>
+
+      <p>&nbsp;</p>
+      <label for="pregunta">Pregunta:</label><br/>
+      <input type="text" name="quiz[pregunta]" size="40" required 
+             placeholder="Escriba la pregunta aquí" value=""/>
+      <p>&nbsp;</p>
+      <label for="respuesta">Respuesta:</label><br/>
+      <input type="text" name="quiz[respuesta]" size="40" required 
+             placeholder="Escriba la respuesta aquí" value=""/>
+      <p>&nbsp;</p>
+      <label for="texto_respuesta">Texto de la respuesta:</label><br/>
+      <input type="text" name="quiz[texto_respuesta]" size="40" required 
+             placeholder="Escriba el texto de la respuesta aquí" value=""/>
+      <p>&nbsp;</p>
+      <input type="submit" value=" Guardar pregunta ">
+      <a href="/quizes"><input type="button" value=" Cancelar "/></a>
+      
+    </form>

@@ -6,7 +6,7 @@ var quizController = require('../controllers/quiz_controller.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Quiz' });
+  res.render('index', { title: 'Quiz', errors: [] });
 });
 
 // Autoload de comandos con :quizId
@@ -17,6 +17,14 @@ router.get('/quizes/:quizId(\\d+)', quizController.show);
 
 /* GET answer. */
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
+
+//Modulo 8 
+/* Quiz: new */
+router.get('/quizes/new', quizController.new );
+
+/* Quiz: post new */
+router.post('/quizes/create', quizController.create );
+//Modulo 8
 
 router.get('/quizes', quizController.index);
 
