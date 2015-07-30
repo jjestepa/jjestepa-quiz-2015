@@ -93,3 +93,58 @@ exports.create = function( req, res ) {
 	); // Fin then
 }
 
+//GET /quizes/:id/edit
+
+//GET /quizes/:quizId/edit accede al formulario de edición de preguntas. El identificador de la pregunta en la tabla se extrae con (/:quizId(\\d+)/) para reconocer solo números. Como esta ruta incluye :quiId, autoload realiza la búsqueda en la tabla antes de invocar el controlador, ddejando el objeto en req.quiz, para poder inicializar el formulario con la pregunta y respuesta guardada en la tabla.
+exports.edit = function(req,res) {
+	var quiz = req.quiz; //autoload de instancia de quiz
+
+	res.render('quizes/edit', {quiz: quiz, errors: []});
+};
+
+
+//como la ruta incluye el identificador (:quizId) de la pregunta en la tabla, autoload pre-carga el objeto en req.quiz antes de invocar el controlador update.
+//El controlador actualiza las propiedades pregunta y respuesta de re.quiz con lo enviado en el formulario, actualiza la DB y redirecciona a la lista de preguntas con la preguntas ya corregida.
+
+//PUT /quizes/:id
+exports.update = function(req, res){
+	req.quiz.pregunta = req.body.quiz.pregunta;
+	req.quiz.respuesta = req.body.quiz.respuesta;
+
+	req.quiz.validate().then(
+		function (err){
+			if (err) 
+			{
+				res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
+			}
+			else
+			{
+				req.quiz //save: guarda campos pregunta y respuesta en DB
+					.save({fields: ["pregunta","respuesta"]})
+					.then( function () 
+					{
+						res.redirect('/quizes');
+					});
+			} //else
+		} //function
+	); //then
+};	
+
+
+//DELTE /quizes/:id
+//el controlador destroy se invoca al llegar DELETE /quizes/:quiId. Como la ruta incluye el identificador (:quizId) de la pregunta en la tabla, autoload pre-carga el objeto en req.quiz antes de invocar el controlador update. El método destroy() ordena la destrucción de la entrada de la tabla identificada por req.quiz. Cundo dicha entrada se ha elminado de la tabla se invoa el callback installado con then(..) que redirecciona a la lista de preguntas.
+exports.destroy = function (req, res) {
+	req.quiz.destroy().then ( 
+		function () {
+			res.redirect('/quizes');
+		}
+	).catch( 
+		function (error) {
+			next(error)
+		}
+	);
+};			
+
+
+
+
