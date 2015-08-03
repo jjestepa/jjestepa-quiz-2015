@@ -23,9 +23,20 @@ var sequelize = new Sequelize( DB_name, user, pwd,
     } 
     );
 
+//Importar definición de la tabla Quiz
 var Quiz = sequelize.import(path.join(__dirname,'quiz'));
-exports.Quiz = Quiz;
 
+
+//Importar definición de la tabla COmment
+var comment_path = path.join(__dirname, 'comment');
+var Comment = sequelize.import(comment_path);
+
+//Relación 1 a N - esto añade QuizId en la tabla Comment, que contiene la foreign key
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+exports.Quiz = Quiz;
+exports.Comment = Comment;
 
 //sequelize.sync() crea e inicializa tabla de preguntas en DB
 sequelize.sync().then(function() {
