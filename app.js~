@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials');
 var methodOverride = require('method-override');
+var session = require('express-session');
+
 var routes = require('./routes/index.js');
 
 var app = express();
@@ -22,8 +24,25 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( { extended: true }));
-app.use(cookieParser());
+app.use(cookieParser('Quiz jjestepa 2015')); //el parámetro es la semilla para cifrar la cookie
+app.use(session()); //instala el Middleware session
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+//Módulo 9
+//Helpers dinámicos:
+app.use(funciton(req,res,next) {
+	//guardar path en session.redir para despues de login/logout
+	if(!req.path.match(/\/login|\/logout/)) {
+		req.session.redir = req.path;
+	}
+
+	//Hacer visible req.session en las vistas
+	res.locals.session = req.session; //copia la sesión que está accesible en req.session en
+					// res.locals.session para que esté accesible en las vistas.
+	next();
+});
 
 app.use('/', routes);
 

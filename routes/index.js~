@@ -28,7 +28,7 @@ router.delete('/quizes/:quizId(\\d+)', quizController.destroy);
 //Accede al formulario de crear comenteario, asociado al quiz :id
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 //crea una entrada en la tabla comments, asociada a :quizId en Quiz
-router.psot('/quizes/:quizId(\\d+)/comments', commentController.create);
+router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
 //Módulo 9
 
 router.get('/quizes', quizController.index);
