@@ -10,6 +10,46 @@ var session = require('express-session');
 
 var routes = require('./routes/index.js');
 
+
+
+function autologout( req, res, next ) {
+
+	var timeout = 120*1000;
+
+	// Si el usuario está autenticado, calculamos la hora actual
+	if( typeof req.session !== "undefined" && typeof req.session.user !== "undefined" )
+	{
+		var now = new Date().getTime();
+
+		// Si es la primera visita (no hay variable ultimaVisita rellena)
+		if( typeof req.session.ultimaVisita === "undefined" )
+		{
+			//console.debug("primera visita de --> " + req.session.user);
+			//console.debug("en el momento --> " + now);			
+			req.session.ultimaVisita = now;
+		}
+    		else
+		{
+			var ultimaVisita = req.session.ultimaVisita;
+			if( (now - ultimaVisita) > timeout )
+			{
+				//console.debug("sesión expirada para  --> " + req.session.user);
+        			delete req.session.user;
+			}
+			else
+			{
+				//console.debug("última visita de --> " + req.session.user);
+				//console.debug("en el momento --> " + req.session.ultimaVisita);
+				//console.debug("actualizamos sesión con --> " + now);
+			        req.session.ultimaVisita = now;
+			}
+		}
+	}
+
+	// Si no está conectado o ya hemos terminado, seguimos
+	next();
+}
+
 var app = express();
 
 // view engine setup
@@ -29,6 +69,7 @@ app.use(session()); //instala el Middleware session
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(autologout);
 
 //Módulo 9
 //Helpers dinámicos:
