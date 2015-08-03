@@ -13,6 +13,7 @@ router.get('/', function(req, res) {
 
 // Autoload de comandos con :quizId
 router.param('quizId', quizController.load); //Autoload :quizId
+router.param('commentId', commentController.load); //Autoload :commentId
 
 //Definición de rutas de sesión
 router.get('/login', sessionController.new); //formulario login
@@ -31,10 +32,13 @@ router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizCont
 //Modulo 8
 
 //Módulo 9
+//Definición de rutas de comentarios
 //Accede al formulario de crear comenteario, asociado al quiz :id
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 //crea una entrada en la tabla comments, asociada a :quizId en Quiz
 router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
+		sessionController.loginRequired,commentController.publish);
 //Módulo 9
 
 router.get('/quizes', quizController.index);
